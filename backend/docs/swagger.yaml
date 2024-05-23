@@ -1,0 +1,305 @@
+basePath: /api
+definitions:
+  auth.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  responses.ErrorMessage:
+    properties:
+      error:
+        type: boolean
+      message:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  responses.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: aputradewantara@gmail.com
+    name: Alif Dewantara
+    url: https://github.com/alifdwt
+  description: REST API for Kutipanda App
+  title: Kutipanda API
+  version: "1.0"
+paths:
+  /auth/hello:
+    get:
+      description: Return a greeting message to the user
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Greet the user
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user
+      parameters:
+      - description: User credentials
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Login to Kutipanda
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new user
+      parameters:
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Full Name
+        in: formData
+        name: full_name
+        required: true
+        type: string
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: Description
+        in: formData
+        name: description
+        type: string
+      - description: Profile Image
+        in: formData
+        name: profile_image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Register to Kutipanda
+      tags:
+      - Auth
+  /movie:
+    get:
+      description: Retrieve all movies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all movies
+      tags:
+      - Movie
+  /movie/{id}:
+    get:
+      description: Retrieve movie data by its ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Get movie by ID
+      tags:
+      - Movie
+  /movie/create:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: Movie title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Movie description
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Movie year
+        in: formData
+        name: year
+        required: true
+        type: integer
+      - description: Movie poster image
+        in: formData
+        name: poster_image
+        required: true
+        type: file
+      - description: Movie country origin
+        in: formData
+        name: origin
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create movie
+      tags:
+      - Movie
+  /movie/hello:
+    get:
+      description: Return a greeting message for movie
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Greet the user for movie
+      tags:
+      - Movie
+  /movie/slug/{slug}:
+    get:
+      description: Retrieve a movie by its slug
+      parameters:
+      - description: Movie Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get movie by slug
+      tags:
+      - Movie
+  /user:
+    get:
+      description: Get all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all users
+      tags:
+      - User
+  /user/{username}:
+    get:
+      description: Retrieve user data by username
+      parameters:
+      - description: User username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get user data by username
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    in: Header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
