@@ -12,6 +12,7 @@ type Service struct {
 	Auth  AuthService
 	User  UserService
 	Movie MovieService
+	Song  SongService
 }
 
 type Deps struct {
@@ -27,5 +28,6 @@ func NewService(deps Deps) *Service {
 		Auth:  NewAuthService(deps.Repository.User, deps.Hashing, deps.Logger, deps.Token, deps.Mapper.UserMapper),
 		User:  NewUserService(deps.Repository.User, deps.Logger, deps.Mapper.UserMapper),
 		Movie: NewMovieService(deps.Repository.Movie, deps.Logger),
+		Song:  NewSongService(deps.Repository.Song, deps.Logger),
 	}
 }

@@ -257,6 +257,140 @@ paths:
       summary: Get movie by slug
       tags:
       - Movie
+  /song:
+    get:
+      consumes:
+      - application/json
+      description: Get all songs from application
+      parameters:
+      - description: Page ID
+        in: query
+        name: page_id
+        required: true
+        type: integer
+      - description: Page Size
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: Order By
+        in: query
+        name: order_by
+        required: true
+        type: string
+      - description: Search query
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all songs
+      tags:
+      - Song
+  /song/create:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new song for the authenticated user
+      parameters:
+      - description: Song title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Song lyrics
+        in: formData
+        name: lyrics
+        required: true
+        type: string
+      - description: Song year
+        in: formData
+        name: year
+        required: true
+        type: integer
+      - description: Song album image
+        in: formData
+        name: album_image
+        required: true
+        type: file
+      - description: Song language
+        in: formData
+        name: language
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create Song
+      tags:
+      - Song
+  /song/delete/{id}:
+    delete:
+      description: Delete a song by its ID
+      parameters:
+      - description: Song ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete song by ID
+      tags:
+      - Song
+  /song/slug/{slug}:
+    get:
+      description: Retrieve a song by its slug
+      parameters:
+      - description: Song Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get Song by Slug
+      tags:
+      - Song
   /user:
     get:
       description: Get all users

@@ -5,6 +5,7 @@ import "time"
 type Song struct {
 	ID            int       `json:"id" gorm:"primaryKey"`
 	Title         string    `json:"title" gorm:"unique;not null"`
+	Slug          string    `json:"slug" gorm:"unique;not null"`
 	Lyrics        string    `json:"lyrics" gorm:"not null"`
 	Year          int       `json:"year" gorm:"not null"`
 	AlbumImageUrl string    `json:"album_image_url" gorm:"not null"`
