@@ -4,6 +4,7 @@ import (
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/auth"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/movie"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/song"
+	songtranslation "github.com/alifdwt/kutipanda-backend/internal/domain/requests/song_translation"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/user"
 	"github.com/alifdwt/kutipanda-backend/internal/models"
 )
@@ -36,4 +37,13 @@ type SongRepository interface {
 	FindSongBySlug(slug string, limit int, offset int, order string) (*[]models.Song, error)
 	UpdateSong(userId int, songId int, updatedSong song.UpdateSongRequest) (*models.Song, error)
 	DeleteSong(songId int) (*models.Song, error)
+}
+
+type SongTranslationRepository interface {
+	CreateSongTranslation(userId int, request songtranslation.CreateSongTranslationRequest) (*models.SongTranslation, error)
+	GetSongTranslationAll(limit int, offset int, order string) (*[]models.SongTranslation, error)
+	GetSongTranslationById(id int) (*models.SongTranslation, error)
+	GetSongTranslationBySlug(slug string) (*models.SongTranslation, error)
+	UpdateSongTranslation(userId int, songTranslationId int, updatedSongTranslation songtranslation.UpdateSongTranslationRequest) (*models.SongTranslation, error)
+	DeleteSongTranslation(userId int, songTranslationId int) (*models.SongTranslation, error)
 }

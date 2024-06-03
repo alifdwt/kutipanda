@@ -15,7 +15,7 @@ func (c *CreateSongRequest) Validate() error {
 
 	err := validate.Struct(c)
 	if err != nil {
-		return nil
+		return err
 	}
 
 	return nil
