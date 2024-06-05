@@ -28,6 +28,17 @@ func (s *userService) GetUserAll() (*[]responses.UserResponse, error) {
 	return &mapper, nil
 }
 
+func (s *userService) GetUserById(id int) (*responses.UserResponse, error) {
+	res, err := s.repository.GetUserById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	mapper := s.mapper.ToUserResponse(res)
+
+	return mapper, nil
+}
+
 func (s *userService) GetUserByUsername(username string) (*responses.UserResponse, error) {
 	res, err := s.repository.GetUserByUsername(username)
 	if err != nil {

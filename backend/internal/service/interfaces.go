@@ -17,6 +17,7 @@ type AuthService interface {
 
 type UserService interface {
 	GetUserAll() (*[]responses.UserResponse, error)
+	GetUserById(id int) (*responses.UserResponse, error)
 	GetUserByUsername(username string) (*responses.UserResponse, error)
 	GetRandomUser(count int) (*[]responses.UserResponse, error)
 }

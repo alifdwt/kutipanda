@@ -408,7 +408,26 @@ paths:
       summary: Get all users
       tags:
       - User
-  /user/{username}:
+  /user/me:
+    get:
+      description: Retrieve logged in user data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Get user data
+      tags:
+      - User
+  /user/username/{username}:
     get:
       description: Retrieve user data by username
       parameters:

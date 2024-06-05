@@ -100,7 +100,7 @@ func (h *Handler) register(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(responses.Response{
-		Message:    "success",
+		Message:    "Successfully register user",
 		StatusCode: fiber.StatusOK,
 		Data:       user,
 	})
