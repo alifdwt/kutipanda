@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "cd ../.. && husky frontend/kutipanda/.husky"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.0",
