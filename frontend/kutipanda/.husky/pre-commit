@@ -1,5 +1,3 @@
-. "$(dirname -- "$0")/_/husky.sh"
-
 cd frontend/kutipanda
 # npm run compile
 # npx pretty-quick --staged
