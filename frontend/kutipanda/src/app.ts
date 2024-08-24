@@ -34,7 +34,7 @@ export const siteConfig = {
         {
           external: false,
           href: "/privacy",
-          title: "Privacy",
+          title: "Privasi",
         },
         {
           external: false,
@@ -154,11 +154,90 @@ export const siteConfig = {
           description: "Kata-kata terindah",
         },
       ],
-      title: "Katalog",
+      title: "Unggulan",
     },
     {
+      title: "Film",
+      href: "/movies",
+      items: [
+        {
+          title: "Rekomendasi Film",
+          href: "/movies/recommendations",
+          items: [],
+          description: "Rekomendasi film dari kami",
+        },
+        {
+          title: "Genre",
+          href: "/movies/genres",
+          items: [],
+          description: "Genre film yang tersedia",
+        },
+        {
+          title: "Tahun",
+          href: "/movies/years",
+          items: [],
+          description: "Tahun film yang tersedia",
+        },
+        {
+          title: "Negara",
+          href: "/movies/countries",
+          items: [],
+          description: "Negara film yang tersedia",
+        },
+      ],
+      featuredItem: {
+        href: "/movies/kalank",
+        title: "Andhadhun",
+        description: "Ketika seorang pianis buta melihat terlalu banyak hal.",
+        items: [],
+      },
+    },
+    {
+      title: "Lagu",
+      href: "/songs",
+      items: [
+        {
+          title: "Rekomendasi Lagu",
+          href: "/songs/recommendations",
+          items: [],
+          description: "Rekomendasi lagu dari kami",
+        },
+        {
+          title: "Genre",
+          href: "/songs/genres",
+          items: [],
+          description: "Genre lagu yang tersedia",
+        },
+        {
+          title: "Tahun",
+          href: "/songs/years",
+          items: [],
+          description: "Tahun lagu yang tersedia",
+        },
+        {
+          title: "Negara",
+          href: "/songs/countries",
+          items: [],
+          description: "Negara lagu yang tersedia",
+        },
+      ],
+      featuredItem: {
+        href: "/songs/naina-da-kya-kasoor-andhadhun",
+        title: "Naina Da Kya Kasoor (Andhadhun)",
+        items: [],
+        description: "Apa salahnya si mata ini?",
+      },
+    },
+    {
+      title: "Blog",
       href: "/blog",
       items: [
+        {
+          title: "Blog",
+          href: "/blog",
+          items: [],
+          description: "Tulisan pribadi",
+        },
         {
           title: "Blog Film",
           href: "/blog/categories/movies",
@@ -177,14 +256,19 @@ export const siteConfig = {
           items: [],
           description: "Tulisan terkini tentang kutipan",
         },
-        {
-          title: "Blog Tentang Kami",
-          href: "/blog/categories/about",
-          items: [],
-          description: "Tulisan terkini tentang tentang kami",
-        },
       ],
-      title: "Blog",
+      featuredItem: {
+        href: "/blog/industri-kreatif-indonesia-identitas-jawabannya",
+        title:
+          "Apa yang kurang dari industri kreatif Indonesia? Identitas Jawabannya",
+        description:
+          "Ketika identitas sebuah bangsa dapat menjadi nilai eksotis dalam industri kreatif",
+        items: [],
+      },
+    },
+    {
+      title: "Dukung",
+      href: "/support",
     },
   ] satisfies MainMenuItem[],
   socialLinks: {

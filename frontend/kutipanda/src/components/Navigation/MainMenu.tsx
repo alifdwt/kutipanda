@@ -29,8 +29,8 @@ export function MainMenu({ items }: MainMenuProps) {
         className="hidden items-center space-x-2 lg:flex"
       >
         <EarthIcon className="size-6" />
-        <span className="sr-only">Kutipanda</span>
-        <span className="hidden font-bold lg:inline-block">
+        <span className="sr-only uppercase">{siteConfig.name}</span>
+        <span className="hidden font-bold lg:inline-block uppercase text-xl text-primary">
           {siteConfig.name}
         </span>
       </Link>
@@ -100,25 +100,73 @@ export function MainMenu({ items }: MainMenuProps) {
                     {item.title}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul
-                      className={`
+                    {item.featuredItem ? (
+                      <ul
+                        className={`
+                          grid gap-3 p-6
+      
+                          lg:w-[500px] lg:grid-cols-[1fr_1fr]
+      
+                          md:w-[400px]
+                        `}
+                      >
+                        <li className="row-span-4">
+                          <NavigationMenuLink asChild>
+                            <Link
+                              aria-label={`featured ${item.title}`}
+                              href={item.featuredItem.href}
+                              className={`
+                            flex size-full select-none flex-col justify-end
+                            rounded-lg bg-gradient-to-b from-muted/50 to-muted p-6
+                            no-underline outline-none
+  
+                            focus:shadow-md
+                          `}
+                            >
+                              <div className="mb-2 mt-4 text-lg font-medium">
+                                {item.featuredItem.title}
+                              </div>
+                              <p
+                                className={`
+                                  text-sm leading-tight text-muted-foreground
+                                `}
+                              >
+                                {item.featuredItem.description}
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        {item.items.map((subItem) => (
+                          <ListItem
+                            href={subItem.href}
+                            key={subItem.title}
+                            title={subItem.title}
+                          >
+                            {subItem.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    ) : (
+                      <ul
+                        className={`
                         grid w-[400px] gap-3 p-4
 
                         lg:w-[600px]
 
                         md:w-[500px] md:grid-cols-2
                       `}
-                    >
-                      {item.items.map((subItem) => (
-                        <ListItem
-                          href={subItem.href}
-                          key={subItem.title}
-                          title={subItem.title}
-                        >
-                          {subItem.description}
-                        </ListItem>
-                      ))}
-                    </ul>
+                      >
+                        {item.items.map((subItem) => (
+                          <ListItem
+                            href={subItem.href}
+                            key={subItem.title}
+                            title={subItem.title}
+                          >
+                            {subItem.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    )}
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               ) : (
