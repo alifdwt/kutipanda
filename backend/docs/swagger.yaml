@@ -10,6 +10,17 @@ definitions:
     - email
     - password
     type: object
+  country.CreateCountryRequest:
+    properties:
+      code:
+        maxLength: 2
+        type: string
+      name:
+        type: string
+    required:
+    - code
+    - name
+    type: object
   responses.ErrorMessage:
     properties:
       error:
@@ -133,6 +144,87 @@ paths:
       summary: Register to Kutipanda
       tags:
       - Auth
+  /country:
+    get:
+      description: Retrieve all countries
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all countries
+      tags:
+      - Country
+  /country/code/{code}:
+    get:
+      description: Retrieve a country by its code
+      parameters:
+      - description: Country Code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get country by code
+      tags:
+      - Country
+  /country/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new country
+      parameters:
+      - description: Request body to create a new country
+        in: body
+        name: country
+        required: true
+        schema:
+          $ref: '#/definitions/country.CreateCountryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create country
+      tags:
+      - Country
+  /country/hello:
+    get:
+      description: Return a greeting message for country
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Greet the user for country
+      tags:
+      - Country
   /movie:
     get:
       description: Retrieve all movies

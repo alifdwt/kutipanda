@@ -47,3 +47,10 @@ type SongTranslationRepository interface {
 	UpdateSongTranslation(userId int, songTranslationId int, updatedSongTranslation songtranslation.UpdateSongTranslationRequest) (*models.SongTranslation, error)
 	DeleteSongTranslation(userId int, songTranslationId int) (*models.SongTranslation, error)
 }
+
+type CountryRepository interface {
+	CreateCountry(country *models.Country) (*models.Country, error)
+	GetCountryAll() (*[]models.Country, error)
+	GetCountryByCode(code string) (*models.Country, error)
+	DeleteCountryByCode(code string) (*models.Country, error)
+}

@@ -7,6 +7,7 @@ type Repositories struct {
 	Movie           MovieRepository
 	Song            SongRepository
 	SongTranslation SongTranslationRepository
+	Country         CountryRepository
 }
 
 func NewRepositories(db *gorm.DB) *Repositories {
@@ -15,5 +16,6 @@ func NewRepositories(db *gorm.DB) *Repositories {
 		Movie:           NewMovieRepository(db),
 		Song:            NewSongRepository(db),
 		SongTranslation: NewSongTranslationRepository(db),
+		Country:         NewCountryRepository(db),
 	}
 }

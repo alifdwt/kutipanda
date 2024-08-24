@@ -157,6 +157,132 @@
                 }
             }
         },
+        "/country": {
+            "get": {
+                "description": "Retrieve all countries",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get all countries",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/country/code/{code}": {
+            "get": {
+                "description": "Retrieve a country by its code",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get country by code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Country Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/country/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Create country",
+                "parameters": [
+                    {
+                        "description": "Request body to create a new country",
+                        "name": "country",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/country.CreateCountryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/country/hello": {
+            "get": {
+                "description": "Return a greeting message for country",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Greet the user for country",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/movie": {
             "get": {
                 "description": "Retrieve all movies",
@@ -657,6 +783,22 @@
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "country.CreateCountryRequest": {
+            "type": "object",
+            "required": [
+                "code",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "maxLength": 2
+                },
+                "name": {
                     "type": "string"
                 }
             }

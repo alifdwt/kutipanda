@@ -14,6 +14,7 @@ type Service struct {
 	Movie           MovieService
 	Song            SongService
 	SongTranslation SongTranslationService
+	Country         CountryService
 }
 
 type Deps struct {
@@ -31,5 +32,6 @@ func NewService(deps Deps) *Service {
 		Movie:           NewMovieService(deps.Repository.Movie, deps.Logger),
 		Song:            NewSongService(deps.Repository.Song, deps.Logger),
 		SongTranslation: NewSongTranslationService(deps.Repository.SongTranslation, deps.Logger),
+		Country:         NewCountryService(deps.Repository.Country, deps.Logger),
 	}
 }
