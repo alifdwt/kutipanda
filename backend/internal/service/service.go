@@ -16,6 +16,7 @@ type Service struct {
 	SongTranslation SongTranslationService
 	Country         CountryService
 	Quote           QuoteService
+	Language        LanguageService
 }
 
 type Deps struct {
@@ -35,5 +36,6 @@ func NewService(deps Deps) *Service {
 		SongTranslation: NewSongTranslationService(deps.Repository.SongTranslation, deps.Logger),
 		Country:         NewCountryService(deps.Repository.Country, deps.Logger),
 		Quote:           NewQuoteService(deps.Repository.Quote, deps.Logger),
+		Language:        NewLanguageService(deps.Repository.Language, deps.Logger),
 	}
 }

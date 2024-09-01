@@ -9,6 +9,7 @@ type Repositories struct {
 	SongTranslation SongTranslationRepository
 	Country         CountryRepository
 	Quote           QuoteRepository
+	Language        LanguageRepository
 }
 
 func NewRepositories(db *gorm.DB) *Repositories {
@@ -19,5 +20,6 @@ func NewRepositories(db *gorm.DB) *Repositories {
 		SongTranslation: NewSongTranslationRepository(db),
 		Country:         NewCountryRepository(db),
 		Quote:           NewQuoteRepository(db),
+		Language:        NewLanguageRepository(db),
 	}
 }

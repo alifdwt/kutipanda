@@ -21,6 +21,16 @@ definitions:
     - code
     - name
     type: object
+  language.CreateLanguageRequest:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+    required:
+    - code
+    - name
+    type: object
   quote.CreateQuoteRequest:
     properties:
       movie_id:
@@ -235,6 +245,101 @@ paths:
       summary: Greet the user for country
       tags:
       - Country
+  /language:
+    get:
+      description: Get all language
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all language
+      tags:
+      - Language
+  /language/code/{code}:
+    get:
+      description: Get language by code
+      parameters:
+      - description: Language Code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get language by code
+      tags:
+      - Language
+  /language/create:
+    post:
+      consumes:
+      - application/json
+      description: Create language
+      parameters:
+      - description: Create language
+        in: body
+        name: language
+        required: true
+        schema:
+          $ref: '#/definitions/language.CreateLanguageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create language
+      tags:
+      - Language
+  /language/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete language by id
+      parameters:
+      - description: Language ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete language by id
+      tags:
+      - Language
   /movie:
     get:
       description: Retrieve all movies

@@ -64,3 +64,10 @@ type QuoteService interface {
 	GetRandomQuote(count int) (*[]models.Quote, error)
 	DeleteQuoteById(id int) (*models.Quote, error)
 }
+
+type LanguageService interface {
+	CreateLanguage(language models.Language) (*models.Language, error)
+	GetLanguageAll() (*[]models.Language, error)
+	GetLanguageByCode(code string) (*models.Language, error)
+	DeleteLanguageById(id int) (*models.Language, error)
+}
