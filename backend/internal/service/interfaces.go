@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/auth"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/movie"
+	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/quote"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/song"
 	songtranslation "github.com/alifdwt/kutipanda-backend/internal/domain/requests/song_translation"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/responses"
@@ -55,4 +56,11 @@ type CountryService interface {
 	GetCountryAll() (*[]models.Country, error)
 	GetCountryByCode(code string) (*models.Country, error)
 	DeleteCountryByCode(code string) (*models.Country, error)
+}
+
+type QuoteService interface {
+	CreateQuote(userId int, quote quote.CreateQuoteRequest) (*models.Quote, error)
+	GetQuoteAll() (*[]models.Quote, error)
+	GetRandomQuote(count int) (*[]models.Quote, error)
+	DeleteQuoteById(id int) (*models.Quote, error)
 }

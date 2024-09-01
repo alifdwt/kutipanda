@@ -474,6 +474,140 @@
                 }
             }
         },
+        "/quote": {
+            "get": {
+                "description": "Get all quotes",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Get all quotes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Create quote",
+                "parameters": [
+                    {
+                        "description": "Create quote",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/quote.CreateQuoteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Delete quote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Quote ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/hello": {
+            "get": {
+                "description": "Greet hello",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Greet hello",
+                "responses": {
+                    "200": {
+                        "description": "Hello from kutipanda",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/song": {
             "get": {
                 "description": "Get all songs from application",
@@ -799,6 +933,21 @@
                     "maxLength": 2
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "quote.CreateQuoteRequest": {
+            "type": "object",
+            "required": [
+                "movie_id",
+                "quote_text"
+            ],
+            "properties": {
+                "movie_id": {
+                    "type": "integer"
+                },
+                "quote_text": {
                     "type": "string"
                 }
             }

@@ -21,6 +21,16 @@ definitions:
     - code
     - name
     type: object
+  quote.CreateQuoteRequest:
+    properties:
+      movie_id:
+        type: integer
+      quote_text:
+        type: string
+    required:
+    - movie_id
+    - quote_text
+    type: object
   responses.ErrorMessage:
     properties:
       error:
@@ -349,6 +359,91 @@ paths:
       summary: Get movie by slug
       tags:
       - Movie
+  /quote:
+    get:
+      description: Get all quotes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all quotes
+      tags:
+      - Quote
+  /quote/create:
+    post:
+      consumes:
+      - application/json
+      description: Create quote
+      parameters:
+      - description: Create quote
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/quote.CreateQuoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create quote
+      tags:
+      - Quote
+  /quote/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete quote
+      parameters:
+      - description: Quote ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete quote
+      tags:
+      - Quote
+  /quote/hello:
+    get:
+      description: Greet hello
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Hello from kutipanda
+          schema:
+            type: string
+      summary: Greet hello
+      tags:
+      - Quote
   /song:
     get:
       consumes:

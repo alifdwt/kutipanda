@@ -51,4 +51,5 @@ func (h *Handler) InitApi(router *fiber.App) {
 	h.initMovieGroup(router)
 	h.initSongGroup(router)
 	h.initCountryGroup(router)
+	h.initQuoteGroup(router)
 }
