@@ -137,7 +137,7 @@ func (h *Handler) handlerGetSongBySlug(c *fiber.Ctx) error {
 // @Param lyrics formData string true "Song lyrics"
 // @Param year formData integer true "Song year"
 // @Param album_image formData file true "Song album image"
-// @Param language formData string true "Song language"
+// @Param country_id formData integer true "Song country id"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /song/create [post]
@@ -171,11 +171,20 @@ func (h *Handler) handlerCreateSong(c *fiber.Ctx) error {
 		})
 	}
 
+	countryId, err := strconv.Atoi(c.FormValue("country_id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+			Error:      true,
+			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
+		})
+	}
+
 	createReq := song.CreateSongRequest{
-		Title:    c.FormValue("title"),
-		Lyrics:   c.FormValue("lyrics"),
-		Year:     year,
-		Language: c.FormValue("language"),
+		Title:     c.FormValue("title"),
+		Lyrics:    c.FormValue("lyrics"),
+		Year:      year,
+		CountryID: countryId,
 	}
 
 	file, err := c.FormFile("album_image")

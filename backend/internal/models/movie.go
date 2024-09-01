@@ -9,7 +9,8 @@ type Movie struct {
 	Description    string    `json:"description" gorm:"size:150;not null"`
 	Year           int       `json:"year" gorm:"not null"`
 	PosterImageUrl string    `json:"poster_image_url" gorm:"not null"`
-	Origin         string    `json:"origin" gorm:"not null"`
+	CountryID      int       `json:"country_id" gorm:"not null"`
+	Country        *Country  `json:"country" gorm:"foreignkey:CountryID"`
 	Actors         []*Actor  `json:"actors" gorm:"many2many:movie_actors;"`
 	Songs          []*Song   `json:"songs" gorm:"many2many:movie_songs;"`
 	CreatedAt      time.Time `json:"created_at"`

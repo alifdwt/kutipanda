@@ -292,11 +292,11 @@ paths:
         name: poster_image
         required: true
         type: file
-      - description: Movie country origin
+      - description: Movie country id
         in: formData
-        name: origin
+        name: country_id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -414,11 +414,11 @@ paths:
         name: album_image
         required: true
         type: file
-      - description: Song language
+      - description: Song country id
         in: formData
-        name: language
+        name: country_id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:

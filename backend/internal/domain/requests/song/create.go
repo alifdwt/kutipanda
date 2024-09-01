@@ -7,7 +7,7 @@ type CreateSongRequest struct {
 	Lyrics        string `json:"lyrics" validate:"required"`
 	Year          int    `json:"year" validate:"required"`
 	AlbumImageUrl string `json:"album_image_url" validate:"required,url"`
-	Language      string `json:"language" validate:"required"`
+	CountryID     int    `json:"country_id" validate:"required"`
 }
 
 func (c *CreateSongRequest) Validate() error {

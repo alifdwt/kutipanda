@@ -7,7 +7,7 @@ type CreateMovieRequest struct {
 	Description    string `json:"description" validate:"required"`
 	Year           int    `json:"year" validate:"required"`
 	PosterImageUrl string `json:"poster" validate:"required"`
-	Origin         string `json:"origin" validate:"required"`
+	CountryID      int    `json:"country_id" validate:"required"`
 }
 
 func (c *CreateMovieRequest) Validate() error {

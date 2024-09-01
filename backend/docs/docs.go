@@ -362,9 +362,9 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Movie country origin",
-                        "name": "origin",
+                        "type": "integer",
+                        "description": "Movie country id",
+                        "name": "country_id",
                         "in": "formData",
                         "required": true
                     }
@@ -586,9 +586,9 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Song language",
-                        "name": "language",
+                        "type": "integer",
+                        "description": "Song country id",
+                        "name": "country_id",
                         "in": "formData",
                         "required": true
                     }

@@ -130,7 +130,7 @@ func (h *Handler) handlerMovieById(c *fiber.Ctx) error {
 // @Param description formData string true "Movie description"
 // @Param year formData integer true "Movie year"
 // @Param poster_image formData file true "Movie poster image"
-// @Param origin formData string true "Movie country origin"
+// @Param country_id formData integer true "Movie country id"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /movie/create [post]
@@ -144,11 +144,20 @@ func (h *Handler) handlerMovieCreate(c *fiber.Ctx) error {
 		})
 	}
 
+	countryId, err := strconv.Atoi(c.FormValue("country_id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+			Error:      true,
+			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
+		})
+	}
+
 	createReq := movie.CreateMovieRequest{
 		Title:       c.FormValue("title"),
 		Description: c.FormValue("description"),
 		Year:        year,
-		Origin:      c.FormValue("origin"),
+		CountryID:   countryId,
 	}
 
 	file, err := c.FormFile("poster_image")

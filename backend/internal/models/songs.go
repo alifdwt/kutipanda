@@ -9,9 +9,10 @@ type Song struct {
 	Lyrics        string    `json:"lyrics" gorm:"not null"`
 	Year          int       `json:"year" gorm:"not null"`
 	AlbumImageUrl string    `json:"album_image_url" gorm:"not null"`
-	Language      string    `json:"language" gorm:"not null"`
 	UserID        int       `json:"user_id" gorm:"not null"`
 	User          User      `json:"user"`
+	CountryID     int       `json:"country_id" gorm:"not null"`
+	Country       *Country  `json:"country" gorm:"foreignkey:CountryID"`
 	Artists       []*Artist `json:"artists" gorm:"many2many:artist_songs;"`
 	Movie         []*Movie  `json:"movies" gorm:"many2many:movie_songs;"`
 	CreatedAt     time.Time `json:"created_at"`
