@@ -20,7 +20,9 @@ func (r *quoteRepository) CreateQuote(userId int, quote quote.CreateQuoteRequest
 	db := r.db.Model(&quoteModel)
 
 	quoteModel.QuoteText = quote.QuoteText
+	quoteModel.QuoteTransliteration = quote.QuoteTransliteration
 	quoteModel.MovieID = quote.MovieID
+	quoteModel.LanguageID = quote.LanguageID
 	quoteModel.UserID = userId
 
 	if err := db.Debug().Create(&quoteModel).Error; err != nil {
@@ -35,7 +37,7 @@ func (r *quoteRepository) GetQuoteAll() (*[]models.Quote, error) {
 
 	db := r.db.Model(&quotes)
 
-	if err := db.Debug().Preload("Movie").Find(&quotes).Error; err != nil {
+	if err := db.Debug().Preload("Movie.Country").Preload("Language").Preload("User").Find(&quotes).Error; err != nil {
 		return nil, err
 	}
 
@@ -47,7 +49,7 @@ func (r *quoteRepository) GetRandomQuote(count int) (*[]models.Quote, error) {
 
 	db := r.db.Model(&quotes)
 
-	result := db.Debug().Order("RANDOM()").Limit(count).Find(&quotes)
+	result := db.Debug().Preload("Movie.Country").Preload("Language").Preload("User").Order("RANDOM()").Limit(count).Find(&quotes)
 	if result.Error != nil {
 		return nil, result.Error
 	}

@@ -33,11 +33,16 @@ definitions:
     type: object
   quote.CreateQuoteRequest:
     properties:
+      language_id:
+        type: integer
       movie_id:
         type: integer
       quote_text:
         type: string
+      quote_transliteration:
+        type: string
     required:
+    - language_id
     - movie_id
     - quote_text
     type: object
@@ -547,6 +552,29 @@ paths:
           schema:
             type: string
       summary: Greet hello
+      tags:
+      - Quote
+  /quote/random/{count}:
+    get:
+      description: Get random quotes
+      parameters:
+      - description: Count
+        in: path
+        name: count
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get random quotes
       tags:
       - Quote
   /song:

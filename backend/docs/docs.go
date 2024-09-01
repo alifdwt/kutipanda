@@ -763,6 +763,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/quote/random/{count}": {
+            "get": {
+                "description": "Get random quotes",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Get random quotes",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Count",
+                        "name": "count",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/song": {
             "get": {
                 "description": "Get all songs from application",
@@ -1110,14 +1145,21 @@ const docTemplate = `{
         "quote.CreateQuoteRequest": {
             "type": "object",
             "required": [
+                "language_id",
                 "movie_id",
                 "quote_text"
             ],
             "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
                 "movie_id": {
                     "type": "integer"
                 },
                 "quote_text": {
+                    "type": "string"
+                },
+                "quote_transliteration": {
                     "type": "string"
                 }
             }

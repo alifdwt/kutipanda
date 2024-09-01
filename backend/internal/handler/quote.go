@@ -55,6 +55,14 @@ func (h *Handler) handlerQuoteAll(c *fiber.Ctx) error {
 	})
 }
 
+// @Summary Get random quotes
+// @Description Get random quotes
+// @Tags Quote
+// @Produce json
+// @Param count path int true "Count"
+// @Success 200 {object} responses.Response
+// @Failure 400 {object} responses.ErrorMessage
+// @Router /quote/random/{count} [get]
 func (h *Handler) handlerQuoteRandom(c *fiber.Ctx) error {
 	count, err := c.ParamsInt("count")
 	if err != nil {
