@@ -24,11 +24,11 @@ func (r *movieRepository) CreateMovie(movie movie.CreateMovieRequest) (*models.M
 
 	movieModel.Title = movie.Title
 	movieModel.Description = movie.Description
-	movieModel.Year = movie.Year
+	movieModel.ReleaseDate = movie.ReleaseDate
 	movieModel.PosterImageUrl = movie.PosterImageUrl
 	movieModel.CountryID = movie.CountryID
 
-	movieModel.Slug = fmt.Sprintf("%s-%d", slug.Make(movie.Title), movie.Year)
+	movieModel.Slug = fmt.Sprintf("%s-%d", slug.Make(movie.Title), movie.ReleaseDate.Year())
 
 	result := db.Debug().Create(&movieModel)
 	if result.Error != nil {
@@ -89,7 +89,7 @@ func (r *movieRepository) UpdateMovieById(id int, updatedMovie movie.UpdateMovie
 
 	movie.Title = updatedMovie.Title
 	movie.Description = updatedMovie.Description
-	movie.Year = updatedMovie.Year
+	movie.ReleaseDate = updatedMovie.ReleaseDate
 	movie.PosterImageUrl = updatedMovie.PosterImageUrl
 	movie.CountryID = updatedMovie.CountryID
 

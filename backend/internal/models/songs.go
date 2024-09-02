@@ -7,7 +7,7 @@ type Song struct {
 	Title         string    `json:"title" gorm:"unique;not null"`
 	Slug          string    `json:"slug" gorm:"unique;not null"`
 	Lyrics        string    `json:"lyrics" gorm:"not null"`
-	Year          int       `json:"year" gorm:"not null"`
+	ReleaseDate   time.Time `json:"release_date" gorm:"not null"`
 	AlbumImageUrl string    `json:"album_image_url" gorm:"not null"`
 	UserID        int       `json:"user_id" gorm:"not null"`
 	User          User      `json:"user"`

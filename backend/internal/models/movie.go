@@ -7,7 +7,7 @@ type Movie struct {
 	Title          string    `json:"title" gorm:"unique;not null"`
 	Slug           string    `json:"slug" gorm:"unique;not null"`
 	Description    string    `json:"description" gorm:"size:150;not null"`
-	Year           int       `json:"year" gorm:"not null"`
+	ReleaseDate    time.Time `json:"release_date" gorm:"not null"`
 	PosterImageUrl string    `json:"poster_image_url" gorm:"not null"`
 	CountryID      int       `json:"country_id" gorm:"not null"`
 	Country        *Country  `json:"country" gorm:"foreignkey:CountryID"`

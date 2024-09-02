@@ -497,9 +497,9 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "integer",
-                        "description": "Movie year",
-                        "name": "year",
+                        "type": "string",
+                        "description": "Movie release date",
+                        "name": "release_date",
                         "in": "formData",
                         "required": true
                     },
@@ -890,9 +890,9 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "integer",
-                        "description": "Song year",
-                        "name": "year",
+                        "type": "string",
+                        "description": "Song release date",
+                        "name": "release_date",
                         "in": "formData",
                         "required": true
                     },

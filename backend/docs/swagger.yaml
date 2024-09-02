@@ -402,11 +402,11 @@ paths:
         name: description
         required: true
         type: string
-      - description: Movie year
+      - description: Movie release date
         in: formData
-        name: year
+        name: release_date
         required: true
-        type: integer
+        type: string
       - description: Movie poster image
         in: formData
         name: poster_image
@@ -632,11 +632,11 @@ paths:
         name: lyrics
         required: true
         type: string
-      - description: Song year
+      - description: Song release date
         in: formData
-        name: year
+        name: release_date
         required: true
-        type: integer
+        type: string
       - description: Song album image
         in: formData
         name: album_image
