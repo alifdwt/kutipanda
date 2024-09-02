@@ -24,11 +24,11 @@ func (r *movieRepository) CreateMovie(movie movie.CreateMovieRequest) (*models.M
 
 	movieModel.Title = movie.Title
 	movieModel.Description = movie.Description
-	movieModel.Year = movie.Year
+	movieModel.ReleaseDate = movie.ReleaseDate
 	movieModel.PosterImageUrl = movie.PosterImageUrl
-	movieModel.Origin = movie.Origin
+	movieModel.CountryID = movie.CountryID
 
-	movieModel.Slug = fmt.Sprintf("%s-%d", slug.Make(movie.Title), movie.Year)
+	movieModel.Slug = fmt.Sprintf("%s-%d", slug.Make(movie.Title), movie.ReleaseDate.Year())
 
 	result := db.Debug().Create(&movieModel)
 	if result.Error != nil {
@@ -43,7 +43,7 @@ func (r *movieRepository) GetMovieAll() (*[]models.Movie, error) {
 
 	db := r.db.Model(&movies)
 
-	result := db.Debug().Find(&movies)
+	result := db.Debug().Preload("Country").Find(&movies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -56,7 +56,7 @@ func (r *movieRepository) GetMovieBySlug(slug string) (*models.Movie, error) {
 
 	db := r.db.Model(&movie)
 
-	checkMovieBySlug := db.Debug().Where("slug = ?", slug).First(&movie)
+	checkMovieBySlug := db.Debug().Preload("Country").Preload("Actors").Preload("Songs").Where("slug = ?", slug).First(&movie)
 	if checkMovieBySlug.Error != nil {
 		return nil, checkMovieBySlug.Error
 	}
@@ -89,9 +89,9 @@ func (r *movieRepository) UpdateMovieById(id int, updatedMovie movie.UpdateMovie
 
 	movie.Title = updatedMovie.Title
 	movie.Description = updatedMovie.Description
-	movie.Year = updatedMovie.Year
+	movie.ReleaseDate = updatedMovie.ReleaseDate
 	movie.PosterImageUrl = updatedMovie.PosterImageUrl
-	movie.Origin = updatedMovie.Origin
+	movie.CountryID = updatedMovie.CountryID
 
 	updateMovie := db.Debug().Updates(&movie)
 	if updateMovie.Error != nil {

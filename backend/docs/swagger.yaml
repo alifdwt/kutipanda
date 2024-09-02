@@ -10,6 +10,57 @@ definitions:
     - email
     - password
     type: object
+  country.CreateCountryRequest:
+    properties:
+      code:
+        maxLength: 2
+        type: string
+      name:
+        type: string
+    required:
+    - code
+    - name
+    type: object
+  language.CreateLanguageRequest:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+    required:
+    - code
+    - name
+    type: object
+  quote.CreateQuoteRequest:
+    properties:
+      language_id:
+        type: integer
+      movie_id:
+        type: integer
+      quote_text:
+        type: string
+      quote_transliteration:
+        type: string
+    required:
+    - language_id
+    - movie_id
+    - quote_text
+    type: object
+  quote.UpdateQuoteRequest:
+    properties:
+      language_id:
+        type: integer
+      movie_id:
+        type: integer
+      quote_text:
+        type: string
+      quote_transliteration:
+        type: string
+    required:
+    - language_id
+    - movie_id
+    - quote_text
+    type: object
   responses.ErrorMessage:
     properties:
       error:
@@ -26,6 +77,38 @@ definitions:
         type: string
       statusCode:
         type: integer
+    type: object
+  songtranslation.CreateSongTranslationRequest:
+    properties:
+      language_id:
+        type: integer
+      song_id:
+        type: integer
+      translated_lyrics:
+        type: string
+      translated_title:
+        type: string
+    required:
+    - language_id
+    - song_id
+    - translated_lyrics
+    - translated_title
+    type: object
+  songtranslation.UpdateSongTranslationRequest:
+    properties:
+      language_id:
+        type: integer
+      song_id:
+        type: integer
+      translated_lyrics:
+        type: string
+      translated_title:
+        type: string
+    required:
+    - language_id
+    - song_id
+    - translated_lyrics
+    - translated_title
     type: object
 host: localhost:8080
 info:
@@ -133,6 +216,182 @@ paths:
       summary: Register to Kutipanda
       tags:
       - Auth
+  /country:
+    get:
+      description: Retrieve all countries
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all countries
+      tags:
+      - Country
+  /country/code/{code}:
+    get:
+      description: Retrieve a country by its code
+      parameters:
+      - description: Country Code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get country by code
+      tags:
+      - Country
+  /country/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new country
+      parameters:
+      - description: Request body to create a new country
+        in: body
+        name: country
+        required: true
+        schema:
+          $ref: '#/definitions/country.CreateCountryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create country
+      tags:
+      - Country
+  /country/hello:
+    get:
+      description: Return a greeting message for country
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Greet the user for country
+      tags:
+      - Country
+  /language:
+    get:
+      description: Get all language
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all language
+      tags:
+      - Language
+  /language/code/{code}:
+    get:
+      description: Get language by code
+      parameters:
+      - description: Language Code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get language by code
+      tags:
+      - Language
+  /language/create:
+    post:
+      consumes:
+      - application/json
+      description: Create language
+      parameters:
+      - description: Create language
+        in: body
+        name: language
+        required: true
+        schema:
+          $ref: '#/definitions/language.CreateLanguageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create language
+      tags:
+      - Language
+  /language/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete language by id
+      parameters:
+      - description: Language ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete language by id
+      tags:
+      - Language
   /movie:
     get:
       description: Retrieve all movies
@@ -190,21 +449,21 @@ paths:
         name: description
         required: true
         type: string
-      - description: Movie year
+      - description: Movie release date
         in: formData
-        name: year
+        name: release_date
         required: true
-        type: integer
+        type: string
       - description: Movie poster image
         in: formData
         name: poster_image
         required: true
         type: file
-      - description: Movie country origin
+      - description: Movie country id
         in: formData
-        name: origin
+        name: country_id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -257,6 +516,163 @@ paths:
       summary: Get movie by slug
       tags:
       - Movie
+  /quote:
+    get:
+      description: Get all quotes
+      parameters:
+      - description: Page ID
+        in: query
+        name: page_id
+        required: true
+        type: integer
+      - description: Page Size
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: Order By
+        in: query
+        name: order_by
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all quotes
+      tags:
+      - Quote
+  /quote/create:
+    post:
+      consumes:
+      - application/json
+      description: Create quote
+      parameters:
+      - description: Create quote
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/quote.CreateQuoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create quote
+      tags:
+      - Quote
+  /quote/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete quote
+      parameters:
+      - description: Quote ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete quote
+      tags:
+      - Quote
+  /quote/hello:
+    get:
+      description: Greet hello
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Hello from kutipanda
+          schema:
+            type: string
+      summary: Greet hello
+      tags:
+      - Quote
+  /quote/random/{count}:
+    get:
+      description: Get random quotes
+      parameters:
+      - description: Count
+        in: path
+        name: count
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get random quotes
+      tags:
+      - Quote
+  /quote/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update quote
+      parameters:
+      - description: Quote ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update quote
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/quote.UpdateQuoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Update quote
+      tags:
+      - Quote
   /song:
     get:
       consumes:
@@ -296,6 +712,121 @@ paths:
       summary: Get all songs
       tags:
       - Song
+  /song-translation:
+    get:
+      description: Get all song translation
+      parameters:
+      - description: Page ID
+        in: query
+        name: page_id
+        required: true
+        type: integer
+      - description: Page Size
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: Order By
+        in: query
+        name: order_by
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all song translation
+      tags:
+      - Song Translation
+  /song-translation/create:
+    post:
+      consumes:
+      - application/json
+      description: Create Song Translation
+      parameters:
+      - description: Create Song Translation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/songtranslation.CreateSongTranslationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Create Song Translation
+      tags:
+      - Song Translation
+  /song-translation/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Song Translation
+      parameters:
+      - description: Song Translation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Delete Song Translation
+      tags:
+      - Song Translation
+  /song-translation/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update Song Translation
+      parameters:
+      - description: Song Translation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Song Translation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/songtranslation.UpdateSongTranslationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Update Song Translation
+      tags:
+      - Song Translation
   /song/create:
     post:
       consumes:
@@ -312,21 +843,21 @@ paths:
         name: lyrics
         required: true
         type: string
-      - description: Song year
+      - description: Song release date
         in: formData
-        name: year
+        name: release_date
         required: true
-        type: integer
+        type: string
       - description: Song album image
         in: formData
         name: album_image
         required: true
         type: file
-      - description: Song language
+      - description: Song country id
         in: formData
-        name: language
+        name: country_id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:

@@ -6,7 +6,7 @@ type UpdateSongTranslationRequest struct {
 	SongID           int    `json:"song_id" validate:"required"`
 	TranslatedTitle  string `json:"translated_title" validate:"required"`
 	TranslatedLyrics string `json:"translated_lyrics" validate:"required"`
-	Language         string `json:"language" validate:"required"`
+	LanguageID       int    `json:"language_id" validate:"required"`
 }
 
 func (u *UpdateSongTranslationRequest) Validate() error {

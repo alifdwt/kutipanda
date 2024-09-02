@@ -25,6 +25,7 @@ type NavItemWithChildren = {
 
 type NavItemWithOptionalChildren = {
   items?: NavItemWithChildren[];
+  featuredItem?: NavItemWithChildren;
 } & NavItem;
 
 export type MainMenuItem = NavItemWithOptionalChildren;

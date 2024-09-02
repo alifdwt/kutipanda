@@ -1,4 +1,4 @@
-export default {
+const metadata = {
   name: "Kutipanda",
   appNameDesc: "Kutipanda: An app for polyglot maniacs",
   appPublisher: "Kutipanda",
@@ -11,3 +11,5 @@ export default {
     url: "https://github.com/alifdwt",
   },
 };
+
+export default metadata;

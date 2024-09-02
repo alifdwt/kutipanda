@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/movie"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/responses"
@@ -128,14 +129,23 @@ func (h *Handler) handlerMovieById(c *fiber.Ctx) error {
 // @Security BearerAuth
 // @Param title formData string true "Movie title"
 // @Param description formData string true "Movie description"
-// @Param year formData integer true "Movie year"
+// @Param release_date formData string true "Movie release date"
 // @Param poster_image formData file true "Movie poster image"
-// @Param origin formData string true "Movie country origin"
+// @Param country_id formData integer true "Movie country id"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /movie/create [post]
 func (h *Handler) handlerMovieCreate(c *fiber.Ctx) error {
-	year, err := strconv.Atoi(c.FormValue("year"))
+	countryId, err := strconv.Atoi(c.FormValue("country_id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+			Error:      true,
+			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
+		})
+	}
+
+	releaseDate, err := time.Parse("2006-01-02", c.FormValue("release_date"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -147,8 +157,8 @@ func (h *Handler) handlerMovieCreate(c *fiber.Ctx) error {
 	createReq := movie.CreateMovieRequest{
 		Title:       c.FormValue("title"),
 		Description: c.FormValue("description"),
-		Year:        year,
-		Origin:      c.FormValue("origin"),
+		ReleaseDate: releaseDate,
+		CountryID:   countryId,
 	}
 
 	file, err := c.FormFile("poster_image")
@@ -170,7 +180,7 @@ func (h *Handler) handlerMovieCreate(c *fiber.Ctx) error {
 	}
 	defer uploadedFile.Close()
 
-	fileName := fmt.Sprintf("%s/%s-%d-1", "Movie", slug.Make(createReq.Title), year)
+	fileName := fmt.Sprintf("%s/%s-%d-1", "Movie", slug.Make(createReq.Title), releaseDate.Year())
 	imageUrl, err := h.cloudinary.UploadToCloudinary(uploadedFile, fileName)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(responses.ErrorMessage{

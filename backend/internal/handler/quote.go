@@ -3,36 +3,47 @@ package handler
 import (
 	"strconv"
 
-	songtranslation "github.com/alifdwt/kutipanda-backend/internal/domain/requests/song_translation"
+	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/quote"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/responses"
 	"github.com/alifdwt/kutipanda-backend/internal/middleware"
 	"github.com/alifdwt/kutipanda-backend/util"
 	"github.com/gofiber/fiber/v2"
 )
 
-func (h *Handler) initSongTranslationGroup(api *fiber.App) {
-	songTranslation := api.Group("/api/song-translation")
+func (h *Handler) initQuoteGroup(api *fiber.App) {
+	quote := api.Group("/api/quote")
 
-	songTranslation.Get("/", h.handlerGetSongTranslationAll)
-	// songTranslation.Get("/slug/:slug", h.handlerGetSongTranslationBySlug)
+	quote.Get("/hello", h.handlerQuoteHello)
+	quote.Get("/", h.handlerQuoteAll)
+	quote.Get("/random/:count", h.handlerQuoteRandom)
 
-	songTranslation.Use(middleware.Protector())
-	songTranslation.Post("/create", h.handlerCreateSongTranslation)
-	songTranslation.Put("/update/:id", h.handlerUpdateSongTranslation)
-	songTranslation.Delete("/delete/:id", h.handlerDeleteSongTranslation)
+	quote.Use(middleware.Protector())
+	quote.Post("/create", h.handlerQuoteCreate)
+	quote.Put("/update/:id", h.handlerQuoteUpdate)
+	quote.Delete("/delete/:id", h.handlerQuoteDelete)
 }
 
-// @Summary Get all song translation
-// @Description Get all song translation
-// @Tags Song Translation
+// @Summary Greet hello
+// @Description Greet hello
+// @Tags Quote
+// @Produce plain
+// @Success 200 {string} string "Hello from kutipanda"
+// @Router /quote/hello [get]
+func (h *Handler) handlerQuoteHello(c *fiber.Ctx) error {
+	return c.SendString("Hello from kutipanda")
+}
+
+// @Summary Get all quotes
+// @Description Get all quotes
+// @Tags Quote
 // @Produce json
 // @Param page_id query int true "Page ID"
 // @Param page_size query int true "Page Size"
 // @Param order_by query string true "Order By"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /song-translation [get]
-func (h *Handler) handlerGetSongTranslationAll(c *fiber.Ctx) error {
+// @Router /quote [get]
+func (h *Handler) handlerQuoteAll(c *fiber.Ctx) error {
 	pageId, err := strconv.Atoi(c.Query("page_id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
@@ -63,32 +74,67 @@ func (h *Handler) handlerGetSongTranslationAll(c *fiber.Ctx) error {
 
 	offset := (pageId - 1) * pageSize
 
-	songTranslations, err := h.service.SongTranslation.GetSongTranslationALl(pageSize, offset, orderBy)
+	res, err := h.service.Quote.GetQuoteAll(pageSize, offset, orderBy)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
-			StatusCode: fiber.StatusBadRequest,
 			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
 		})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(responses.Response{
-		Message:    "Successfully get all song translation",
+		Message:    "Success get all quotes",
 		StatusCode: fiber.StatusOK,
-		Data:       songTranslations,
+		Data:       res,
 	})
 }
 
-// @Summary Create Song Translation
-// @Description Create Song Translation
-// @Tags Song Translation
-// @Accept json
+// @Summary Get random quotes
+// @Description Get random quotes
+// @Tags Quote
 // @Produce json
-// @Param request body songtranslation.CreateSongTranslationRequest true "Create Song Translation"
+// @Param count path int true "Count"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /song-translation/create [post]
-func (h *Handler) handlerCreateSongTranslation(c *fiber.Ctx) error {
+// @Router /quote/random/{count} [get]
+func (h *Handler) handlerQuoteRandom(c *fiber.Ctx) error {
+	count, err := c.ParamsInt("count")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+			Error:      true,
+			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
+		})
+	}
+
+	res, err := h.service.Quote.GetRandomQuote(count)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+			Error:      true,
+			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(responses.Response{
+		Message:    "Success get random quotes",
+		StatusCode: fiber.StatusOK,
+		Data:       res,
+	})
+}
+
+// @Summary Create quote
+// @Description Create quote
+// @Tags Quote
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body quote.CreateQuoteRequest true "Create quote"
+// @Success 200 {object} responses.Response
+// @Failure 400 {object} responses.ErrorMessage
+// @Router /quote/create [post]
+func (h *Handler) handlerQuoteCreate(c *fiber.Ctx) error {
 	authorization := c.Get("Authorization")
 	us := authorization[7:]
 	id, err := h.tokenManager.ValidateToken(us)
@@ -109,7 +155,7 @@ func (h *Handler) handlerCreateSongTranslation(c *fiber.Ctx) error {
 		})
 	}
 
-	var body songtranslation.CreateSongTranslationRequest
+	var body quote.CreateQuoteRequest
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -126,7 +172,7 @@ func (h *Handler) handlerCreateSongTranslation(c *fiber.Ctx) error {
 		})
 	}
 
-	res, err := h.service.SongTranslation.CreateSongTranslation(userId, body)
+	res, err := h.service.Quote.CreateQuote(userId, body)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -136,23 +182,24 @@ func (h *Handler) handlerCreateSongTranslation(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(responses.Response{
-		Message:    "Successfully create song translation",
+		Message:    "Success create quote",
 		StatusCode: fiber.StatusOK,
 		Data:       res,
 	})
 }
 
-// @Summary Update Song Translation
-// @Description Update Song Translation
-// @Tags Song Translation
+// @Summary Update quote
+// @Description Update quote
+// @Tags Quote
 // @Accept json
 // @Produce json
-// @Param id path int true "Song Translation ID"
-// @Param request body songtranslation.UpdateSongTranslationRequest true "Update Song Translation"
+// @Security BearerAuth
+// @Param id path string true "Quote ID"
+// @Param request body quote.UpdateQuoteRequest true "Update quote"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /song-translation/update/{id} [put]
-func (h *Handler) handlerUpdateSongTranslation(c *fiber.Ctx) error {
+// @Router /quote/update/{id} [put]
+func (h *Handler) handlerQuoteUpdate(c *fiber.Ctx) error {
 	authorization := c.Get("Authorization")
 	us := authorization[7:]
 	id, err := h.tokenManager.ValidateToken(us)
@@ -173,7 +220,7 @@ func (h *Handler) handlerUpdateSongTranslation(c *fiber.Ctx) error {
 		})
 	}
 
-	songTranslationId, err := c.ParamsInt("id")
+	quoteId, err := c.ParamsInt("id")
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -182,7 +229,7 @@ func (h *Handler) handlerUpdateSongTranslation(c *fiber.Ctx) error {
 		})
 	}
 
-	var body songtranslation.UpdateSongTranslationRequest
+	var body quote.UpdateQuoteRequest
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -199,7 +246,7 @@ func (h *Handler) handlerUpdateSongTranslation(c *fiber.Ctx) error {
 		})
 	}
 
-	res, err := h.service.SongTranslation.UpdateSongTranslationById(userId, songTranslationId, body)
+	res, err := h.service.Quote.UpdateQuote(userId, quoteId, body)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -209,34 +256,24 @@ func (h *Handler) handlerUpdateSongTranslation(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(responses.Response{
-		Message:    "Successfully update song translation",
+		Message:    "Success update quote",
 		StatusCode: fiber.StatusOK,
 		Data:       res,
 	})
 }
 
-// @Summary Delete Song Translation
-// @Description Delete Song Translation
-// @Tags Song Translation
+// @Summary Delete quote
+// @Description Delete quote
+// @Tags Quote
 // @Accept json
 // @Produce json
-// @Param id path int true "Song Translation ID"
+// @Security BearerAuth
+// @Param id path string true "Quote ID"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /song-translation/delete/{id} [delete]
-func (h *Handler) handlerDeleteSongTranslation(c *fiber.Ctx) error {
-	authorization := c.Get("Authorization")
-	us := authorization[7:]
-	id, err := h.tokenManager.ValidateToken(us)
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(responses.ErrorMessage{
-			Error:      true,
-			Message:    err.Error(),
-			StatusCode: fiber.StatusUnauthorized,
-		})
-	}
-
-	userId, err := strconv.Atoi(id)
+// @Router /quote/delete/{id} [delete]
+func (h *Handler) handlerQuoteDelete(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -245,16 +282,7 @@ func (h *Handler) handlerDeleteSongTranslation(c *fiber.Ctx) error {
 		})
 	}
 
-	songTranslationId, err := c.ParamsInt("id")
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
-			Error:      true,
-			Message:    err.Error(),
-			StatusCode: fiber.StatusBadRequest,
-		})
-	}
-
-	res, err := h.service.SongTranslation.DeleteSongTranslation(userId, songTranslationId)
+	res, err := h.service.Quote.DeleteQuoteById(id)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -264,7 +292,7 @@ func (h *Handler) handlerDeleteSongTranslation(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(responses.Response{
-		Message:    "Successfully delete song translation",
+		Message:    "Success delete quote",
 		StatusCode: fiber.StatusOK,
 		Data:       res,
 	})

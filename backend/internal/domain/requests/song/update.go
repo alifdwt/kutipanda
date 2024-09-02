@@ -1,13 +1,17 @@
 package song
 
-import "github.com/go-playground/validator/v10"
+import (
+	"time"
+
+	"github.com/go-playground/validator/v10"
+)
 
 type UpdateSongRequest struct {
-	Title         string `json:"title" validate:"required"`
-	Lyrics        string `json:"lyrics" validate:"required"`
-	Year          int    `json:"year" validate:"required"`
-	AlbumImageUrl string `json:"album_image_url" validate:"required,url"`
-	Language      string `json:"language" validate:"required"`
+	Title         string    `json:"title" validate:"required"`
+	Lyrics        string    `json:"lyrics" validate:"required"`
+	ReleaseDate   time.Time `json:"release_date" validate:"required"`
+	AlbumImageUrl string    `json:"album_image_url" validate:"required,url"`
+	CountryID     int       `json:"country_id" validate:"required"`
 }
 
 func (c *UpdateSongRequest) Validate() error {

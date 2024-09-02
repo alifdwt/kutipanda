@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/song"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/responses"
@@ -135,9 +136,9 @@ func (h *Handler) handlerGetSongBySlug(c *fiber.Ctx) error {
 // @Produce json
 // @Param title formData string true "Song title"
 // @Param lyrics formData string true "Song lyrics"
-// @Param year formData integer true "Song year"
+// @Param release_date formData string true "Song release date"
 // @Param album_image formData file true "Song album image"
-// @Param language formData string true "Song language"
+// @Param country_id formData integer true "Song country id"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /song/create [post]
@@ -162,7 +163,16 @@ func (h *Handler) handlerCreateSong(c *fiber.Ctx) error {
 		})
 	}
 
-	year, err := strconv.Atoi(c.FormValue("year"))
+	countryId, err := strconv.Atoi(c.FormValue("country_id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+			Error:      true,
+			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
+		})
+	}
+
+	releaseDate, err := time.Parse("2006-01-02", c.FormValue("release_date"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
 			Error:      true,
@@ -172,10 +182,10 @@ func (h *Handler) handlerCreateSong(c *fiber.Ctx) error {
 	}
 
 	createReq := song.CreateSongRequest{
-		Title:    c.FormValue("title"),
-		Lyrics:   c.FormValue("lyrics"),
-		Year:     year,
-		Language: c.FormValue("language"),
+		Title:       c.FormValue("title"),
+		Lyrics:      c.FormValue("lyrics"),
+		ReleaseDate: releaseDate,
+		CountryID:   countryId,
 	}
 
 	file, err := c.FormFile("album_image")
@@ -197,7 +207,7 @@ func (h *Handler) handlerCreateSong(c *fiber.Ctx) error {
 	}
 	defer uploadedFile.Close()
 
-	fileName := fmt.Sprintf("%s/%s-%d-1", "Song", slug.Make(createReq.Title), year)
+	fileName := fmt.Sprintf("%s/%s-%d-1", "Song", slug.Make(createReq.Title), releaseDate.Year())
 	imageUrl, err := h.cloudinary.UploadToCloudinary(uploadedFile, fileName)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(responses.ErrorMessage{

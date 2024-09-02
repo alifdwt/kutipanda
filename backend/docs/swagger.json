@@ -157,6 +157,281 @@
                 }
             }
         },
+        "/country": {
+            "get": {
+                "description": "Retrieve all countries",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get all countries",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/country/code/{code}": {
+            "get": {
+                "description": "Retrieve a country by its code",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get country by code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Country Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/country/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new country",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Create country",
+                "parameters": [
+                    {
+                        "description": "Request body to create a new country",
+                        "name": "country",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/country.CreateCountryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/country/hello": {
+            "get": {
+                "description": "Return a greeting message for country",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Greet the user for country",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/language": {
+            "get": {
+                "description": "Get all language",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get all language",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/language/code/{code}": {
+            "get": {
+                "description": "Get language by code",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get language by code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Language Code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/language/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create language",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Create language",
+                "parameters": [
+                    {
+                        "description": "Create language",
+                        "name": "language",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/language.CreateLanguageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/language/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete language by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Delete language by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Language ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/movie": {
             "get": {
                 "description": "Retrieve all movies",
@@ -216,9 +491,9 @@
                         "required": true
                     },
                     {
-                        "type": "integer",
-                        "description": "Movie year",
-                        "name": "year",
+                        "type": "string",
+                        "description": "Movie release date",
+                        "name": "release_date",
                         "in": "formData",
                         "required": true
                     },
@@ -230,9 +505,9 @@
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Movie country origin",
-                        "name": "origin",
+                        "type": "integer",
+                        "description": "Movie country id",
+                        "name": "country_id",
                         "in": "formData",
                         "required": true
                     }
@@ -348,6 +623,250 @@
                 }
             }
         },
+        "/quote": {
+            "get": {
+                "description": "Get all quotes",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Get all quotes",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page ID",
+                        "name": "page_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page Size",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order By",
+                        "name": "order_by",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/create": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Create quote",
+                "parameters": [
+                    {
+                        "description": "Create quote",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/quote.CreateQuoteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Delete quote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Quote ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/hello": {
+            "get": {
+                "description": "Greet hello",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Greet hello",
+                "responses": {
+                    "200": {
+                        "description": "Hello from kutipanda",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/random/{count}": {
+            "get": {
+                "description": "Get random quotes",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Get random quotes",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Count",
+                        "name": "count",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/update/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Update quote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Quote ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update quote",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/quote.UpdateQuoteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/song": {
             "get": {
                 "description": "Get all songs from application",
@@ -406,6 +925,180 @@
                 }
             }
         },
+        "/song-translation": {
+            "get": {
+                "description": "Get all song translation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Get all song translation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page ID",
+                        "name": "page_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page Size",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order By",
+                        "name": "order_by",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/song-translation/create": {
+            "post": {
+                "description": "Create Song Translation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Create Song Translation",
+                "parameters": [
+                    {
+                        "description": "Create Song Translation",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/songtranslation.CreateSongTranslationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/song-translation/delete/{id}": {
+            "delete": {
+                "description": "Delete Song Translation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Delete Song Translation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Song Translation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/song-translation/update/{id}": {
+            "put": {
+                "description": "Update Song Translation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Update Song Translation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Song Translation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Song Translation",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/songtranslation.UpdateSongTranslationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/song/create": {
             "post": {
                 "security": [
@@ -440,9 +1133,9 @@
                         "required": true
                     },
                     {
-                        "type": "integer",
-                        "description": "Song year",
-                        "name": "year",
+                        "type": "string",
+                        "description": "Song release date",
+                        "name": "release_date",
                         "in": "formData",
                         "required": true
                     },
@@ -454,9 +1147,9 @@
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Song language",
-                        "name": "language",
+                        "type": "integer",
+                        "description": "Song country id",
+                        "name": "country_id",
                         "in": "formData",
                         "required": true
                     }
@@ -661,6 +1354,81 @@
                 }
             }
         },
+        "country.CreateCountryRequest": {
+            "type": "object",
+            "required": [
+                "code",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "maxLength": 2
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "language.CreateLanguageRequest": {
+            "type": "object",
+            "required": [
+                "code",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "quote.CreateQuoteRequest": {
+            "type": "object",
+            "required": [
+                "language_id",
+                "movie_id",
+                "quote_text"
+            ],
+            "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
+                "movie_id": {
+                    "type": "integer"
+                },
+                "quote_text": {
+                    "type": "string"
+                },
+                "quote_transliteration": {
+                    "type": "string"
+                }
+            }
+        },
+        "quote.UpdateQuoteRequest": {
+            "type": "object",
+            "required": [
+                "language_id",
+                "movie_id",
+                "quote_text"
+            ],
+            "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
+                "movie_id": {
+                    "type": "integer"
+                },
+                "quote_text": {
+                    "type": "string"
+                },
+                "quote_transliteration": {
+                    "type": "string"
+                }
+            }
+        },
         "responses.ErrorMessage": {
             "type": "object",
             "properties": {
@@ -684,6 +1452,52 @@
                 },
                 "statusCode": {
                     "type": "integer"
+                }
+            }
+        },
+        "songtranslation.CreateSongTranslationRequest": {
+            "type": "object",
+            "required": [
+                "language_id",
+                "song_id",
+                "translated_lyrics",
+                "translated_title"
+            ],
+            "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
+                "song_id": {
+                    "type": "integer"
+                },
+                "translated_lyrics": {
+                    "type": "string"
+                },
+                "translated_title": {
+                    "type": "string"
+                }
+            }
+        },
+        "songtranslation.UpdateSongTranslationRequest": {
+            "type": "object",
+            "required": [
+                "language_id",
+                "song_id",
+                "translated_lyrics",
+                "translated_title"
+            ],
+            "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
+                "song_id": {
+                    "type": "integer"
+                },
+                "translated_lyrics": {
+                    "type": "string"
+                },
+                "translated_title": {
+                    "type": "string"
                 }
             }
         }

@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/auth"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/movie"
+	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/quote"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/song"
 	songtranslation "github.com/alifdwt/kutipanda-backend/internal/domain/requests/song_translation"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/user"
@@ -46,4 +47,26 @@ type SongTranslationRepository interface {
 	GetSongTranslationBySlug(slug string) (*models.SongTranslation, error)
 	UpdateSongTranslation(userId int, songTranslationId int, updatedSongTranslation songtranslation.UpdateSongTranslationRequest) (*models.SongTranslation, error)
 	DeleteSongTranslation(userId int, songTranslationId int) (*models.SongTranslation, error)
+}
+
+type CountryRepository interface {
+	CreateCountry(country *models.Country) (*models.Country, error)
+	GetCountryAll() (*[]models.Country, error)
+	GetCountryByCode(code string) (*models.Country, error)
+	DeleteCountryByCode(code string) (*models.Country, error)
+}
+
+type QuoteRepository interface {
+	CreateQuote(userId int, quote quote.CreateQuoteRequest) (*models.Quote, error)
+	GetQuoteAll(limit int, offset int, order string) (*[]models.Quote, error)
+	GetRandomQuote(count int) (*[]models.Quote, error)
+	UpdateQuote(userId int, quoteId int, updatedQuote quote.UpdateQuoteRequest) (*models.Quote, error)
+	DeleteQuoteById(id int) (*models.Quote, error)
+}
+
+type LanguageRepository interface {
+	CreateLanguage(language models.Language) (*models.Language, error)
+	GetLanguageAll() (*[]models.Language, error)
+	GetLanguageByCode(code string) (*models.Language, error)
+	DeleteLanguageById(id int) (*models.Language, error)
 }

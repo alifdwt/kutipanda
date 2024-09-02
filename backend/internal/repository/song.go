@@ -24,12 +24,12 @@ func (r *songRepository) CreateSong(userId int, request song.CreateSongRequest) 
 
 	songModel.Title = request.Title
 	songModel.Lyrics = request.Lyrics
-	songModel.Year = request.Year
+	songModel.ReleaseDate = request.ReleaseDate
 	songModel.AlbumImageUrl = request.AlbumImageUrl
-	songModel.Language = request.Language
+	songModel.CountryID = request.CountryID
 
 	songModel.UserID = userId
-	songModel.Slug = fmt.Sprintf("%s-%d", slug.Make(request.Title), request.Year)
+	songModel.Slug = fmt.Sprintf("%s-%d", slug.Make(request.Title), request.ReleaseDate.Year())
 
 	result := db.Debug().Create(&songModel)
 	if result.Error != nil {
@@ -112,11 +112,11 @@ func (r *songRepository) UpdateSong(userId int, songId int, updatedSong song.Upd
 
 	song.Title = updatedSong.Title
 	song.Lyrics = updatedSong.Lyrics
-	song.Year = updatedSong.Year
+	song.ReleaseDate = updatedSong.ReleaseDate
 	song.AlbumImageUrl = updatedSong.AlbumImageUrl
-	song.Language = updatedSong.Language
+	song.CountryID = updatedSong.CountryID
 
-	song.Slug = fmt.Sprintf("%s-%d", slug.Make(updatedSong.Title), updatedSong.Year)
+	song.Slug = fmt.Sprintf("%s-%d", slug.Make(updatedSong.Title), updatedSong.ReleaseDate.Year())
 
 	updateSong := db.Debug().Updates(&song)
 	if updateSong.Error != nil {

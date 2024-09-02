@@ -25,6 +25,9 @@ func NewClient() (*gorm.DB, error) {
 		&models.Song{},
 		&models.Actor{},
 		&models.SongTranslation{},
+		&models.Country{},
+		&models.Quote{},
+		&models.Language{},
 	)
 	if err != nil {
 		panic(err)
