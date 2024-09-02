@@ -850,6 +850,180 @@
                 }
             }
         },
+        "/song-translation": {
+            "get": {
+                "description": "Get all song translation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Get all song translation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page ID",
+                        "name": "page_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page Size",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order By",
+                        "name": "order_by",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/song-translation/create": {
+            "post": {
+                "description": "Create Song Translation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Create Song Translation",
+                "parameters": [
+                    {
+                        "description": "Create Song Translation",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/songtranslation.CreateSongTranslationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/song-translation/delete/{id}": {
+            "delete": {
+                "description": "Delete Song Translation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Delete Song Translation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Song Translation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/song-translation/update/{id}": {
+            "put": {
+                "description": "Update Song Translation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Song Translation"
+                ],
+                "summary": "Update Song Translation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Song Translation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Song Translation",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/songtranslation.UpdateSongTranslationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/song/create": {
             "post": {
                 "security": [
@@ -1181,6 +1355,52 @@
                 },
                 "statusCode": {
                     "type": "integer"
+                }
+            }
+        },
+        "songtranslation.CreateSongTranslationRequest": {
+            "type": "object",
+            "required": [
+                "language_id",
+                "song_id",
+                "translated_lyrics",
+                "translated_title"
+            ],
+            "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
+                "song_id": {
+                    "type": "integer"
+                },
+                "translated_lyrics": {
+                    "type": "string"
+                },
+                "translated_title": {
+                    "type": "string"
+                }
+            }
+        },
+        "songtranslation.UpdateSongTranslationRequest": {
+            "type": "object",
+            "required": [
+                "language_id",
+                "song_id",
+                "translated_lyrics",
+                "translated_title"
+            ],
+            "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
+                "song_id": {
+                    "type": "integer"
+                },
+                "translated_lyrics": {
+                    "type": "string"
+                },
+                "translated_title": {
+                    "type": "string"
                 }
             }
         }

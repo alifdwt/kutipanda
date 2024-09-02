@@ -7,7 +7,8 @@ type SongTranslation struct {
 	TranslatedTitle  string    `json:"translated_title" gorm:"unique;not null"`
 	Slug             string    `json:"slug" gorm:"unique;not null"`
 	TranslatedLyrics string    `json:"translated_lyrics" gorm:"unique;not null"`
-	Language         string    `json:"language" gorm:"not null"`
+	LanguageID       int       `json:"language_id" gorm:"not null"`
+	Language         Language  `json:"language"`
 	UserID           int       `json:"user_id" gorm:"not null"`
 	User             User      `json:"user"`
 	SongID           int       `json:"song_id" gorm:"not null"`

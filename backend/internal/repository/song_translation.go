@@ -24,7 +24,7 @@ func (r *songTranslationRepository) CreateSongTranslation(userId int, request so
 
 	songTranslationModel.TranslatedTitle = request.TranslatedTitle
 	songTranslationModel.TranslatedLyrics = request.TranslatedLyrics
-	songTranslationModel.Language = request.Language
+	songTranslationModel.LanguageID = request.LanguageID
 
 	songTranslationModel.UserID = userId
 	songTranslationModel.SongID = request.SongID
@@ -93,7 +93,7 @@ func (r *songTranslationRepository) UpdateSongTranslation(userId int, songTransl
 
 	songTranslationModel.TranslatedTitle = updatedSongTranslation.TranslatedTitle
 	songTranslationModel.TranslatedLyrics = updatedSongTranslation.TranslatedLyrics
-	songTranslationModel.Language = updatedSongTranslation.Language
+	songTranslationModel.LanguageID = updatedSongTranslation.LanguageID
 
 	songTranslationModel.Slug = fmt.Sprintf("%s-%d", slug.Make(updatedSongTranslation.TranslatedTitle), songTranslationId)
 

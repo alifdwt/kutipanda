@@ -63,6 +63,38 @@ definitions:
       statusCode:
         type: integer
     type: object
+  songtranslation.CreateSongTranslationRequest:
+    properties:
+      language_id:
+        type: integer
+      song_id:
+        type: integer
+      translated_lyrics:
+        type: string
+      translated_title:
+        type: string
+    required:
+    - language_id
+    - song_id
+    - translated_lyrics
+    - translated_title
+    type: object
+  songtranslation.UpdateSongTranslationRequest:
+    properties:
+      language_id:
+        type: integer
+      song_id:
+        type: integer
+      translated_lyrics:
+        type: string
+      translated_title:
+        type: string
+    required:
+    - language_id
+    - song_id
+    - translated_lyrics
+    - translated_title
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -616,6 +648,121 @@ paths:
       summary: Get all songs
       tags:
       - Song
+  /song-translation:
+    get:
+      description: Get all song translation
+      parameters:
+      - description: Page ID
+        in: query
+        name: page_id
+        required: true
+        type: integer
+      - description: Page Size
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: Order By
+        in: query
+        name: order_by
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all song translation
+      tags:
+      - Song Translation
+  /song-translation/create:
+    post:
+      consumes:
+      - application/json
+      description: Create Song Translation
+      parameters:
+      - description: Create Song Translation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/songtranslation.CreateSongTranslationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Create Song Translation
+      tags:
+      - Song Translation
+  /song-translation/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Song Translation
+      parameters:
+      - description: Song Translation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Delete Song Translation
+      tags:
+      - Song Translation
+  /song-translation/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update Song Translation
+      parameters:
+      - description: Song Translation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Song Translation
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/songtranslation.UpdateSongTranslationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Update Song Translation
+      tags:
+      - Song Translation
   /song/create:
     post:
       consumes:
