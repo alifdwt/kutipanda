@@ -853,9 +853,19 @@ paths:
         name: album_image
         required: true
         type: file
+      - description: Song language id
+        in: formData
+        name: language_id
+        required: true
+        type: integer
       - description: Song country id
         in: formData
         name: country_id
+        required: true
+        type: integer
+      - description: Song movie id
+        in: formData
+        name: movie_id
         required: true
         type: integer
       produces:

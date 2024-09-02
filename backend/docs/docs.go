@@ -1154,8 +1154,22 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
+                        "description": "Song language id",
+                        "name": "language_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
                         "description": "Song country id",
                         "name": "country_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Song movie id",
+                        "name": "movie_id",
                         "in": "formData",
                         "required": true
                     }

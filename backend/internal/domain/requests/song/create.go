@@ -11,7 +11,9 @@ type CreateSongRequest struct {
 	Lyrics        string    `json:"lyrics" validate:"required"`
 	ReleaseDate   time.Time `json:"release_date" validate:"required"`
 	AlbumImageUrl string    `json:"album_image_url" validate:"required,url"`
+	LanguageID    int       `json:"language_id" validate:"required"`
 	CountryID     int       `json:"country_id" validate:"required"`
+	MovieID       int       `json:"movie_id"`
 }
 
 func (c *CreateSongRequest) Validate() error {

@@ -20,20 +20,28 @@ func NewSongRepository(db *gorm.DB) *songRepository {
 func (r *songRepository) CreateSong(userId int, request song.CreateSongRequest) (*models.Song, error) {
 	var songModel models.Song
 
-	db := r.db.Model(&songModel)
+	dbSong := r.db.Model(&songModel)
 
 	songModel.Title = request.Title
 	songModel.Lyrics = request.Lyrics
 	songModel.ReleaseDate = request.ReleaseDate
 	songModel.AlbumImageUrl = request.AlbumImageUrl
+	songModel.LanguageID = request.LanguageID
 	songModel.CountryID = request.CountryID
 
 	songModel.UserID = userId
 	songModel.Slug = fmt.Sprintf("%s-%d", slug.Make(request.Title), request.ReleaseDate.Year())
 
-	result := db.Debug().Create(&songModel)
-	if result.Error != nil {
-		return nil, result.Error
+	if request.MovieID != 0 {
+		var movieModel models.Movie
+		if err := r.db.First(&movieModel, request.MovieID).Error; err != nil {
+			return nil, err
+		}
+		songModel.Movie = append(songModel.Movie, &movieModel)
+	}
+
+	if err := dbSong.Debug().Create(&songModel).Error; err != nil {
+		return nil, err
 	}
 
 	return &songModel, nil
@@ -74,7 +82,13 @@ func (r *songRepository) GetSongBySlug(slug string) (*models.Song, error) {
 
 	db := r.db.Model(&songModel)
 
-	result := db.Debug().Where("slug = ?", slug).First(&songModel)
+	result := db.Debug().
+		Preload("Movie").
+		Preload("Country").
+		Preload("User").
+		Preload("Language").
+		Where("slug = ?", slug).
+		First(&songModel)
 	if result.Error != nil {
 		return nil, result.Error
 	}

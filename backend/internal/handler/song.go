@@ -138,7 +138,9 @@ func (h *Handler) handlerGetSongBySlug(c *fiber.Ctx) error {
 // @Param lyrics formData string true "Song lyrics"
 // @Param release_date formData string true "Song release date"
 // @Param album_image formData file true "Song album image"
+// @Param language_id formData integer true "Song language id"
 // @Param country_id formData integer true "Song country id"
+// @Param movie_id formData int true "Song movie id"
 // @Success 200 {object} responses.Response
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /song/create [post]
@@ -172,6 +174,15 @@ func (h *Handler) handlerCreateSong(c *fiber.Ctx) error {
 		})
 	}
 
+	languageId, err := strconv.Atoi(c.FormValue("language_id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+			Error:      true,
+			Message:    err.Error(),
+			StatusCode: fiber.StatusBadRequest,
+		})
+	}
+
 	releaseDate, err := time.Parse("2006-01-02", c.FormValue("release_date"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
@@ -181,11 +192,26 @@ func (h *Handler) handlerCreateSong(c *fiber.Ctx) error {
 		})
 	}
 
+	movieIdStr := c.FormValue("movie_id")
+	var movieId int
+	if movieIdStr != "" {
+		movieId, err = strconv.Atoi(movieIdStr)
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(responses.ErrorMessage{
+				Error:      true,
+				Message:    err.Error(),
+				StatusCode: fiber.StatusBadRequest,
+			})
+		}
+	}
+
 	createReq := song.CreateSongRequest{
 		Title:       c.FormValue("title"),
 		Lyrics:      c.FormValue("lyrics"),
 		ReleaseDate: releaseDate,
 		CountryID:   countryId,
+		LanguageID:  languageId,
+		MovieID:     movieId,
 	}
 
 	file, err := c.FormFile("album_image")

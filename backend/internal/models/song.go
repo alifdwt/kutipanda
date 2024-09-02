@@ -13,6 +13,8 @@ type Song struct {
 	User          User      `json:"user"`
 	CountryID     int       `json:"country_id" gorm:"not null"`
 	Country       *Country  `json:"country" gorm:"foreignkey:CountryID"`
+	LanguageID    int       `json:"language_id" gorm:"not null"`
+	Language      *Language `json:"language" gorm:"foreignkey:LanguageID"`
 	Artists       []*Artist `json:"artists" gorm:"many2many:artist_songs;"`
 	Movie         []*Movie  `json:"movies" gorm:"many2many:movie_songs;"`
 	CreatedAt     time.Time `json:"created_at"`
