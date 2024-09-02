@@ -633,6 +633,29 @@
                     "Quote"
                 ],
                 "summary": "Get all quotes",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page ID",
+                        "name": "page_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page Size",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order By",
+                        "name": "order_by",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -774,6 +797,58 @@
                         "name": "count",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote/update/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quote"
+                ],
+                "summary": "Update quote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Quote ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update quote",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/quote.UpdateQuoteRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -1311,6 +1386,28 @@
             }
         },
         "quote.CreateQuoteRequest": {
+            "type": "object",
+            "required": [
+                "language_id",
+                "movie_id",
+                "quote_text"
+            ],
+            "properties": {
+                "language_id": {
+                    "type": "integer"
+                },
+                "movie_id": {
+                    "type": "integer"
+                },
+                "quote_text": {
+                    "type": "string"
+                },
+                "quote_transliteration": {
+                    "type": "string"
+                }
+            }
+        },
+        "quote.UpdateQuoteRequest": {
             "type": "object",
             "required": [
                 "language_id",

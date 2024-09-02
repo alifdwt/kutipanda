@@ -60,8 +60,9 @@ type CountryService interface {
 
 type QuoteService interface {
 	CreateQuote(userId int, quote quote.CreateQuoteRequest) (*models.Quote, error)
-	GetQuoteAll() (*[]models.Quote, error)
+	GetQuoteAll(limit int, offset int, order string) (*[]models.Quote, error)
 	GetRandomQuote(count int) (*[]models.Quote, error)
+	UpdateQuote(userId int, quoteId int, updatedQuote quote.UpdateQuoteRequest) (*models.Quote, error)
 	DeleteQuoteById(id int) (*models.Quote, error)
 }
 

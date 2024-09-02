@@ -46,6 +46,21 @@ definitions:
     - movie_id
     - quote_text
     type: object
+  quote.UpdateQuoteRequest:
+    properties:
+      language_id:
+        type: integer
+      movie_id:
+        type: integer
+      quote_text:
+        type: string
+      quote_transliteration:
+        type: string
+    required:
+    - language_id
+    - movie_id
+    - quote_text
+    type: object
   responses.ErrorMessage:
     properties:
       error:
@@ -504,6 +519,22 @@ paths:
   /quote:
     get:
       description: Get all quotes
+      parameters:
+      - description: Page ID
+        in: query
+        name: page_id
+        required: true
+        type: integer
+      - description: Page Size
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: Order By
+        in: query
+        name: order_by
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -607,6 +638,39 @@ paths:
           schema:
             $ref: '#/definitions/responses.ErrorMessage'
       summary: Get random quotes
+      tags:
+      - Quote
+  /quote/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update quote
+      parameters:
+      - description: Quote ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update quote
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/quote.UpdateQuoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Update quote
       tags:
       - Quote
   /song:

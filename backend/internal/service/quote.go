@@ -25,8 +25,8 @@ func (s *quoteService) CreateQuote(userId int, quote quote.CreateQuoteRequest) (
 	return res, nil
 }
 
-func (s *quoteService) GetQuoteAll() (*[]models.Quote, error) {
-	res, err := s.repository.GetQuoteAll()
+func (s *quoteService) GetQuoteAll(limit int, offset int, order string) (*[]models.Quote, error) {
+	res, err := s.repository.GetQuoteAll(limit, offset, order)
 	if err != nil {
 		return nil, err
 	}
@@ -36,6 +36,15 @@ func (s *quoteService) GetQuoteAll() (*[]models.Quote, error) {
 
 func (s *quoteService) GetRandomQuote(count int) (*[]models.Quote, error) {
 	res, err := s.repository.GetRandomQuote(count)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (s *quoteService) UpdateQuote(userId int, quoteId int, updatedQuote quote.UpdateQuoteRequest) (*models.Quote, error) {
+	res, err := s.repository.UpdateQuote(userId, quoteId, updatedQuote)
 	if err != nil {
 		return nil, err
 	}

@@ -32,12 +32,20 @@ func (r *quoteRepository) CreateQuote(userId int, quote quote.CreateQuoteRequest
 	return &quoteModel, nil
 }
 
-func (r *quoteRepository) GetQuoteAll() (*[]models.Quote, error) {
+func (r *quoteRepository) GetQuoteAll(limit int, offset int, order string) (*[]models.Quote, error) {
 	var quotes []models.Quote
 
 	db := r.db.Model(&quotes)
 
-	if err := db.Debug().Preload("Movie.Country").Preload("Language").Preload("User").Find(&quotes).Error; err != nil {
+	if err := db.Debug().
+		Preload("Movie.Country").
+		Preload("Language").
+		Preload("User").
+		Order(order).
+		Limit(limit).
+		Offset(offset).
+		Find(&quotes).
+		Error; err != nil {
 		return nil, err
 	}
 
@@ -55,6 +63,27 @@ func (r *quoteRepository) GetRandomQuote(count int) (*[]models.Quote, error) {
 	}
 
 	return &quotes, nil
+}
+
+func (r *quoteRepository) UpdateQuote(userId int, quoteId int, updatedQuote quote.UpdateQuoteRequest) (*models.Quote, error) {
+	var quote models.Quote
+
+	db := r.db.Model(&quote)
+
+	if err := db.Debug().Where("id = ? AND user_id = ?", quoteId, userId).First(&quote).Error; err != nil {
+		return nil, err
+	}
+
+	quote.QuoteText = updatedQuote.QuoteText
+	quote.QuoteTransliteration = updatedQuote.QuoteTransliteration
+	quote.MovieID = updatedQuote.MovieID
+	quote.LanguageID = updatedQuote.LanguageID
+
+	if err := db.Debug().Updates(&quote).Error; err != nil {
+		return nil, err
+	}
+
+	return &quote, nil
 }
 
 func (r *quoteRepository) DeleteQuoteById(id int) (*models.Quote, error) {
