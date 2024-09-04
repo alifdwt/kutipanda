@@ -32,6 +32,14 @@ func (r *songRepository) CreateSong(userId int, request song.CreateSongRequest) 
 	songModel.UserID = userId
 	songModel.Slug = fmt.Sprintf("%s-%d", slug.Make(request.Title), request.ReleaseDate.Year())
 
+	var artistModel models.Artist
+	for _, artistId := range request.ArtistID {
+		if err := r.db.First(&artistModel, artistId).Error; err != nil {
+			return nil, err
+		}
+		songModel.Artists = append(songModel.Artists, &artistModel)
+	}
+
 	if request.MovieID != 0 {
 		var movieModel models.Movie
 		if err := r.db.First(&movieModel, request.MovieID).Error; err != nil {

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/artist"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/auth"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/movie"
 	"github.com/alifdwt/kutipanda-backend/internal/domain/requests/quote"
@@ -71,4 +72,13 @@ type LanguageService interface {
 	GetLanguageAll() (*[]models.Language, error)
 	GetLanguageByCode(code string) (*models.Language, error)
 	DeleteLanguageById(id int) (*models.Language, error)
+}
+
+type ArtistService interface {
+	CreateArtist(request artist.CreateArtistRequest) (*models.Artist, error)
+	GetArtistAll(limit int, offset int, order string) (*[]models.Artist, error)
+	GetArtistBySlug(slug string) (*models.Artist, error)
+	FindArtistsBySlug(slug string, limit int, offset int, order string) (*[]models.Artist, error)
+	UpdateArtist(id int, request artist.UpdateArtistRequest) (*models.Artist, error)
+	DeleteArtistById(id int) (*models.Artist, error)
 }
